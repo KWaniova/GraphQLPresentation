@@ -2,22 +2,10 @@ import typing
 import strawberry
 from strawberry.dataloader import DataLoader
 
-# mutations (returning types)
+# mutations
 # docstrings
 # methods of class (how to call them in client queries)
 # data loaders
-
-books = [
-    {"id": 1, "title": "Harry Potter and the Philosopher's Stone", "author_id": 1},
-    {"id": 2, "title": "Lord of The Rings", "author_id": 2},
-    {"id": 3, "title": "1984", "author_id": 3}
-]
-
-authors = [
-    {"id": 1, "name": 'J.K.Rowling'},
-    {"id": 2, "name": 'J. R. R. Tolkien'},
-    {"id": 3, "name": 'G. Orwell'},
-]
 
 
 def get_author_for_book(root) -> "Author":
@@ -38,12 +26,6 @@ def get_books_for_author(root):
     return [Book(id=book['id'], title=book["title"]) for book in filter(lambda x: x.get("author_id") == root.id, books)]
 
 
-@strawberry.input(description="This is input type of object")
-class AddBookForAuthor:
-    title: str
-    author_id: strawberry.ID
-
-
 @strawberry.type
 class Author:
     id: strawberry.ID
@@ -54,11 +36,25 @@ class Author:
     def greeting(self, name: str) -> str:
         return f"Hello {name}. I am {self.name}"
 
-    @strawberry.mutation
-    def addBook(self, title: str) -> str:
-        books.append(
-            {"id": len(books), "title": title, "author_id": self.id})
-        return "Success"
+
+# baza danych
+books = [
+    {"id": 1, "title": "Harry Potter and the Philosopher's Stone", "author_id": 1},
+    {"id": 2, "title": "Lord of The Rings", "author_id": 2},
+    {"id": 3, "title": "1984", "author_id": 3}
+]
+
+authors = [
+    {"id": 1, "name": 'J.K.Rowling'},
+    {"id": 2, "name": 'J. R. R. Tolkien'},
+    {"id": 3, "name": 'G. Orwell'},
+]
+
+
+@strawberry.input(description="This is input type of object")
+class AddBookForAuthor:
+    title: str
+    author_id: strawberry.ID
 
 
 def get_authors() -> typing.List[Author]:
@@ -96,7 +92,7 @@ class Mutation:
         author = list(filter(lambda x: x.id == int(
             inputBook.author_id), get_authors()))[0]
         books.append(
-            {"id": len(books), "title": inputBook.title, "author_id": author.id})
+            {"id": len(books) + 1, "title": inputBook.title, "author_id": author.id})
 
 
 schema = strawberry.Schema(query=Query, mutation=Mutation)

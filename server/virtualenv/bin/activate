@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/krystynawaniova/Documents/UJ/CalendarOfEventsApp/server/virtualenv"
+VIRTUAL_ENV="/Users/krystynawaniova/Documents/UJ/GraphQLPresentation/server/virtualenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
