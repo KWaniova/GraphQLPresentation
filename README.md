@@ -2,7 +2,8 @@
 
 ## App
 
-Frontend simple react app - connected to server or SpaceX GraphQL API
+Simple front-end react app.
+Can be connected to SpaceX GraphQL API or simple api written in python with strawberry.
 
 ## Server
 
